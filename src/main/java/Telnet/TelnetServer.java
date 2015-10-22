@@ -6,9 +6,9 @@ import java.io.InputStream;
 import java.io.PrintStream;
 
 public class TelnetServer {
-    public static final String USERNAME = "chessMatches";
+    public static final String USERNAME = "";
 
-    public static final String PASSWORD = "tyuevd";
+    public static final String PASSWORD = "";
 
     private TelnetClient telnet = new TelnetClient();
 
