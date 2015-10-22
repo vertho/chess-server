@@ -15,6 +15,7 @@ public class TelnetServer {
     private InputStream in;
 
     private PrintStream out;
+    private boolean silentMode = false;
 
     public TelnetServer(String server, int port) {
         connect(server, port);
@@ -49,7 +50,9 @@ public class TelnetServer {
             StringBuffer sb = new StringBuffer();
             char ch = (char) in.read();
             while (true) {
-                System.out.print(ch);
+                if(!silentMode) {
+                    System.out.print(ch);
+                }
                 sb.append(ch);
                 if (ch == lastChar) {
                     if (sb.toString().endsWith(pattern)) {
@@ -90,5 +93,9 @@ public class TelnetServer {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void setSilentMode(boolean mode){
+        this.silentMode = mode;
     }
 }
