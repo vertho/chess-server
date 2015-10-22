@@ -6,17 +6,15 @@ import java.io.InputStream;
 import java.io.PrintStream;
 
 public class TelnetServer {
-    public static final String USERNAME = "";
+    public static final String USERNAME = "chessMatches";
 
-    public static final String PASSWORD = "";
+    public static final String PASSWORD = "tyuevd";
 
     private TelnetClient telnet = new TelnetClient();
 
     private InputStream in;
 
     private PrintStream out;
-
-    private String prompt = "%";
 
     public TelnetServer(String server, int port) {
         connect(server, port);
@@ -29,7 +27,7 @@ public class TelnetServer {
             write(USERNAME);
             readUntil("password: ");
             write(PASSWORD);
-            readUntil(prompt + " ");
+            readUntil(Commands.PROMPT +" ");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -79,7 +77,7 @@ public class TelnetServer {
     public String sendCommand(String command) {
         try {
             write(command);
-            return readUntil(prompt + " ");
+            return readUntil(Commands.PROMPT + " ");
         } catch (Exception e) {
             e.printStackTrace();
         }
