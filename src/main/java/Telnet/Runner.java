@@ -12,9 +12,11 @@ public class Runner {
     public static final String FREECHESS_ORG = "freechess.org";
     public static final int PORT = 5000;
     private TelnetServer telnet;
+    private RelayCommunicator relayCommunicator;
 
     public Runner() {
         telnet = new TelnetServer(FREECHESS_ORG, PORT);
+        relayCommunicator = new RelayCommunicator(telnet);
     }
 
     public void connect() {
@@ -34,28 +36,7 @@ public class Runner {
     }
 
     public void listGames() {
-        telnet.setSilentMode(true);
-        telnet.sendCommand(RELAY_LIST_TOURNAMENTS);
-        String tournamentList = telnet.readUntil(PROMPT + " ");
-        persistTournamentList(tournamentList);
-    }
-
-    private void persistTournamentList(String tournamentList) {
-        List<String> tournaments = Arrays.asList(StringUtils.split(tournamentList, ":"));
-        List<Tournament> resultList = new ArrayList<Tournament>();
-        for (String s : tournaments) {
-            resultList.add(createTournament(s));
-
-        }
-    }
-
-    private Tournament createTournament(String line) {
-        //kanskje regex for å finne ut hvordan linjene skal splittes
-        String[] list = StringUtils.split(line, "  ");
-        for(String s : list){
-            System.out.println(s);
-        }
-        return null;
+        relayCommunicator.listGames();
     }
 
     public static void main(String[] args) {

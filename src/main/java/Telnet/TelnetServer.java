@@ -15,6 +15,7 @@ public class TelnetServer {
     private InputStream in;
 
     private PrintStream out;
+    //skal fjernes når vi ikke trenger output til konsoll lengre. Er kun med under utvikling
     private boolean silentMode = false;
 
     public TelnetServer(String server, int port) {
