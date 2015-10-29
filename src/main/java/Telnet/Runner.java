@@ -1,13 +1,5 @@
 package Telnet;
 
-import org.apache.commons.lang3.StringUtils;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import static Telnet.Commands.*;
-
 public class Runner {
     public static final String FREECHESS_ORG = "freechess.org";
     public static final int PORT = 5000;

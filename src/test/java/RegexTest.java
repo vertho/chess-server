@@ -1,4 +1,3 @@
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.util.regex.Matcher;
@@ -12,13 +11,15 @@ import static org.testng.Assert.assertEquals;
 public class RegexTest {
 
     @Test
-    public void foo(){
-        String regex = "\\d+";
+    public void tournamentNameShouldBeSplitIntoThreeGroups() {
+        String regex = "(\\d+)\\s+(.+)(Round.+)";
+
         Pattern pattern = Pattern.compile(regex);
         String line = "12  Thoresen Chess Engines Competition - Season 8 Stag ...  Round Started";
         Matcher matcher = pattern.matcher(line);
         matcher.find();
-        assertEquals(matcher.group(0), "12");
-
+        assertEquals(matcher.group(1), "12");
+        assertEquals(matcher.group(2).trim(), "Thoresen Chess Engines Competition - Season 8 Stag ...");
+        assertEquals(matcher.group(3).trim(), "Round Started");
     }
 }
