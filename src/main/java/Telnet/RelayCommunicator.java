@@ -13,15 +13,13 @@ import static Telnet.Commands.RELAY_LIST_TOURNAMENTS;
 public class RelayCommunicator {
     private TelnetServer telnet;
 
-    private String listOfTournamentsFromServer;
-
     private String TournamentListregex = "(\\d+)\\s+(.+)(Round.+)";
 
     public RelayCommunicator(TelnetServer telnet) {
         this.telnet = telnet;
     }
 
-    public void listGames() {
+    public void listTournaments() {
         telnet.setSilentMode(true);
         telnet.sendCommand(RELAY_LIST_TOURNAMENTS);
         String tournamentList = getListOfTournamentsFromServer();
@@ -34,16 +32,16 @@ public class RelayCommunicator {
         for (String s : tournaments) {
             tournamentList.add(createTournamentFromInput(s));
         }
-        int i =1;
+        //TODO: Thomas. Persister til firebase
     }
 
     private Tournament createTournamentFromInput(String input) {
         Pattern pattern = Pattern.compile(TournamentListregex);
         Matcher matcher = pattern.matcher(input);
-        if(matcher.find()){
-            String id = matcher.group(1);
-            String name = matcher.group(2);
-            String status = matcher.group(3);
+        if (matcher.find()) {
+            String id = matcher.group(1).trim();
+            String name = matcher.group(2).trim();
+            String status = matcher.group(3).trim();
             return new Tournament(id, name, status);
         }
         return null;
@@ -54,7 +52,6 @@ public class RelayCommunicator {
         for (String s : StringUtils.split(input, ":")) {
             if (!s.trim().isEmpty()) {
                 resultList.add(s);
-                System.out.println(s);
             }
         }
         return resultList;

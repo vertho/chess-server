@@ -2,8 +2,11 @@ package Telnet;
 
 public class Runner {
     public static final String FREECHESS_ORG = "freechess.org";
+
     public static final int PORT = 5000;
+
     private TelnetServer telnet;
+
     private RelayCommunicator relayCommunicator;
 
     public Runner() {
@@ -11,9 +14,15 @@ public class Runner {
         relayCommunicator = new RelayCommunicator(telnet);
     }
 
+    public static void main(String[] args) {
+        Runner runner = new Runner();
+        runner.connect();
+        runner.listGames();
+        runner.disconnect();
+    }
+
     public void connect() {
         try {
-            System.out.println("Got Connection...");
             telnet.sendCommand("set seek 0");
             telnet.sendCommand("set silence on");
             telnet.sendCommand("set shout off");
@@ -28,13 +37,6 @@ public class Runner {
     }
 
     public void listGames() {
-        relayCommunicator.listGames();
-    }
-
-    public static void main(String[] args) {
-        Runner runner = new Runner();
-        runner.connect();
-        runner.listGames();
-        runner.disconnect();
+        relayCommunicator.listTournaments();
     }
 }

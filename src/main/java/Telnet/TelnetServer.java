@@ -72,7 +72,6 @@ public class TelnetServer {
         try {
             out.println(value);
             out.flush();
-            System.out.println(value);
         } catch (Exception e) {
             e.printStackTrace();
         }
