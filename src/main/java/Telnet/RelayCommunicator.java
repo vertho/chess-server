@@ -1,7 +1,9 @@
 package Telnet;
 
 import org.apache.commons.lang3.StringUtils;
+import org.codehaus.jackson.map.ObjectMapper;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -69,7 +71,6 @@ public class RelayCommunicator {
         for (String s : games) {
             gameList.add(createGameFromInput(s));
         }
-        int i = 0;
         //TODO: persister til firebase
     }
 

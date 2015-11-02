@@ -1,5 +1,8 @@
+import Telnet.Tournament;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.testng.annotations.Test;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -11,6 +14,7 @@ import static org.testng.Assert.assertEquals;
  * Created by Thomas on 23.10.2015.
  */
 public class RegexTest {
+
     private String listGamesOutput =
             "There are 20 games in the Chinese Chess League Division A 2015 - Round 18\n"
                     + "\n"
@@ -38,11 +42,12 @@ public class RegexTest {
 
     private String listTournamentsOutput = "12  Thoresen Chess Engines Competition - Season 8 Stag ...  Round Started";
 
+    public static final String TOURNAMENT_LIST_REGEX = "(\\d+)\\s+(.+)(Round.+)";
+
     @Test
     public void tournamentNameShouldBeSplitIntoThreeGroups() {
-        String regex = "(\\d+)\\s+(.+)(Round.+)";
 
-        Pattern pattern = Pattern.compile(regex);
+        Pattern pattern = Pattern.compile(TOURNAMENT_LIST_REGEX);
         Matcher matcher = pattern.matcher(listTournamentsOutput);
         matcher.find();
         assertEquals(matcher.group(1), "12");
@@ -52,14 +57,7 @@ public class RegexTest {
 
     @Test
     public void gameNameShouldBeSplitIntoSixGroups() {
-        String space = "\\s+";
-        StringBuilder sb = new StringBuilder();
-        sb.append("(\\d+)" + space);
-        sb.append("(\\w+)" + space);
-        sb.append("(\\w+)" + space);
-        sb.append("(\\d-\\d|\\d/.+|\\*)" + space);
-        sb.append("(\\w\\d+)");
-        String regex = sb.toString();
+        String regex = createGameListRegex();
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher("129 GMWen             GMHaoWang         0-1     A11");
         matcher.find();
@@ -88,5 +86,40 @@ public class RegexTest {
             matcher.find();
             System.out.println(matcher.group(1));
         }
+    }
+
+    @Test
+    public void convertToJSON() {
+        Tournament tournament = createTournamentFromInput(listTournamentsOutput);
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            String s = mapper.writeValueAsString(tournament);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String createGameListRegex() {
+        StringBuilder sb = new StringBuilder();
+        String space="\\s+";
+
+        sb.append("(\\d+)"+space);
+        sb.append("(\\w+)"+space);
+        sb.append("(\\w+)"+space);
+        sb.append("(\\d-\\d|\\d/.+|\\*)" + space);
+        sb.append("(\\w\\d+)");
+        return sb.toString();
+    }
+
+    private Tournament createTournamentFromInput(String input) {
+        Pattern pattern = Pattern.compile(TOURNAMENT_LIST_REGEX);
+        Matcher matcher = pattern.matcher(input);
+        if (matcher.find()) {
+            String id = matcher.group(1).trim();
+            String name = matcher.group(2).trim();
+            String status = matcher.group(3).trim();
+            return new Tournament(id, name, status);
+        }
+        return null;
     }
 }

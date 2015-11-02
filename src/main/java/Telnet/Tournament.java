@@ -1,8 +1,10 @@
 package Telnet;
 
-/**
- * Created by Thomas on 22.10.2015.
- */
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
+
+@XmlType( propOrder = { "id", "name", "status"} )
+@XmlRootElement( name = "Tournament" )
 public class Tournament {
     private String id;
     private String name;
