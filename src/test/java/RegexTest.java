@@ -1,5 +1,7 @@
 import org.testng.annotations.Test;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -46,5 +48,45 @@ public class RegexTest {
         assertEquals(matcher.group(1), "12");
         assertEquals(matcher.group(2).trim(), "Thoresen Chess Engines Competition - Season 8 Stag ...");
         assertEquals(matcher.group(3).trim(), "Round Started");
+    }
+
+    @Test
+    public void gameNameShouldBeSplitIntoSixGroups() {
+        String space = "\\s+";
+        StringBuilder sb = new StringBuilder();
+        sb.append("(\\d+)" + space);
+        sb.append("(\\w+)" + space);
+        sb.append("(\\w+)" + space);
+        sb.append("(\\d-\\d|\\d/.+|\\*)" + space);
+        sb.append("(\\w\\d+)");
+        String regex = sb.toString();
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher("129 GMWen             GMHaoWang         0-1     A11");
+        matcher.find();
+        assertEquals(matcher.group(1), "129");
+        assertEquals(matcher.group(2), "GMWen");
+        assertEquals(matcher.group(3), "GMHaoWang");
+        assertEquals(matcher.group(4), "0-1");
+        assertEquals(matcher.group(5), "A11");
+    }
+
+    @Test
+    public void gameScoreIsInterpretedCorrectly() {
+        String regex = "(\\d-\\d|\\d/.+|\\*)";
+        String whiteWin = "1-0";
+        String remis = "1/2-1/2";
+        String blackWin = "0-1";
+        String inProgress = "*";
+        List<String> scores = new ArrayList<String>();
+        scores.add(whiteWin);
+        scores.add(remis);
+        scores.add(blackWin);
+        scores.add(inProgress);
+        for (String s : scores) {
+            Pattern pattern = Pattern.compile(regex);
+            Matcher matcher = pattern.matcher(s);
+            matcher.find();
+            System.out.println(matcher.group(1));
+        }
     }
 }

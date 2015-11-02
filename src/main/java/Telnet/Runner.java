@@ -17,7 +17,8 @@ public class Runner {
     public static void main(String[] args) {
         Runner runner = new Runner();
         runner.connect();
-        runner.listGames();
+        String[] tournamentIds = runner.listTournaments();
+        runner.listGames(tournamentIds);
         runner.disconnect();
     }
 
@@ -36,7 +37,11 @@ public class Runner {
         telnet.disconnect();
     }
 
-    public void listGames() {
-        relayCommunicator.listTournaments();
+    public String[] listTournaments() {
+        return relayCommunicator.listTournaments();
+    }
+
+    public void listGames(String[] tournamentIds){
+        relayCommunicator.listGames(tournamentIds);
     }
 }
