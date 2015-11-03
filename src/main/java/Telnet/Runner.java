@@ -18,7 +18,9 @@ public class Runner {
         Runner runner = new Runner();
         runner.connect();
         String[] tournamentIds = runner.listTournaments();
-        runner.listGames(tournamentIds);
+        if (tournamentIds != null && tournamentIds.length > 0) {
+            runner.listGames(tournamentIds);
+        }
         runner.disconnect();
     }
 
@@ -41,7 +43,7 @@ public class Runner {
         return relayCommunicator.listTournaments();
     }
 
-    public void listGames(String[] tournamentIds){
+    public void listGames(String[] tournamentIds) {
         relayCommunicator.listGames(tournamentIds);
     }
 }

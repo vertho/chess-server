@@ -3,16 +3,16 @@ package Telnet;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-@XmlType( propOrder = { "id", "name", "status"} )
-@XmlRootElement( name = "Tournament" )
+@XmlType(propOrder = {"id", "name", "status"})
+@XmlRootElement(name = "Tournament")
 public class Tournament {
     private String id;
+
     private String name;
+
     private String status;
 
-    public Tournament(){
-
-    }
+    public Tournament() {}
 
     public Tournament(String id, String name, String status) {
         this.id = id;

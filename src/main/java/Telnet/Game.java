@@ -1,13 +1,15 @@
 package Telnet;
 
-/**
- * Created by Thomas on 02.11.2015.
- */
+
 public class Game {
     private int gameId;
+
     private String playerOne;
+
     private String playerTwo;
+
     private String result;
+
     private String ecoCode;
 
     public Game(int gameId, String playerOne, String playerTwo, String result, String ecoCode) {
