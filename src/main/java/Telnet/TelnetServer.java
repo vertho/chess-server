@@ -15,6 +15,7 @@ public class TelnetServer {
     private InputStream in;
 
     private PrintStream out;
+
     //skal fjernes når vi ikke trenger output til konsoll lengre. Er kun med under utvikling
     private boolean silentMode = false;
 
@@ -29,7 +30,7 @@ public class TelnetServer {
             write(USERNAME);
             readUntil("password: ");
             write(PASSWORD);
-            readUntil(Commands.PROMPT +" ");
+            readUntil(Commands.PROMPT + " ");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -51,7 +52,7 @@ public class TelnetServer {
             StringBuffer sb = new StringBuffer();
             char ch = (char) in.read();
             while (true) {
-                if(!silentMode) {
+                if (!silentMode) {
                     System.out.print(ch);
                 }
                 sb.append(ch);
@@ -95,7 +96,7 @@ public class TelnetServer {
         }
     }
 
-    public void setSilentMode(boolean mode){
+    public void setSilentMode(boolean mode) {
         this.silentMode = mode;
     }
 }

@@ -31,14 +31,16 @@ public class RelayGames {
         List<Game> gameList = new ArrayList();
         for (String s : games) {
             gameList.add(createGameFromInput(s));
+            System.out.println(s);
         }
         //TODO: persister til firebase
     }
 
     private String getListOfGamesForTournament() {
         String result = telnet.readUntil(PROMPT + " ");
+        result = StringUtils.remove(result, StringUtils.substringBetween(result,"There are","\n"));
+        result = StringUtils.remove(result, "There are");
         result = StringUtils.remove(result, "\n\r");
-        result = StringUtils.remove(result, "There are 12 games in the Deizisauer Autumn Open 2015 - Round 6");
         result = StringUtils.remove(result, "fics" + PROMPT);
         return result;
     }
